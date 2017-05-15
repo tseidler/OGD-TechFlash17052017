@@ -11,6 +11,8 @@
   const MAX_PARTICLES = 1000;
   const MAX_SPEED = 10;
   const MIN_SPEED = -10;
+  const MIN_SIZE = 3;
+  const MAX_SIZE = 10;
 
   window.addEventListener("resize", resizeCanvas);
   canvas.addEventListener("click", addFireworks);
@@ -32,8 +34,9 @@
     let colour = COLOURS[Math.floor(Math.random() * COLOURS.length)];
     let xv = Math.floor(Math.random() * (MAX_SPEED - MIN_SPEED + 1)) + MIN_SPEED;
     let yv = Math.floor(Math.random() * (MAX_SPEED - MIN_SPEED + 1)) + MIN_SPEED;
+    let size = Math.floor(Math.random() * (MAX_SIZE - MIN_SIZE + 1)) + MIN_SIZE;
 
-    let particle = new Particle(x, y, 5, colour, xv, yv);
+    let particle = new Particle(x, y, size, colour, xv, yv);
     particles.push(particle);
   }
 

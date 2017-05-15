@@ -54,8 +54,10 @@
   }
 
   function draw(dTime) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
+    context.globalAlpha = 0.1;
+    context.fillStyle = '#000000';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.globalAlpha = 1.0;
     particles.forEach(particle => particle.draw(context));
   }
   resizeCanvas();

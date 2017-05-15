@@ -7,9 +7,13 @@
   const COLOURS = ['white', 'green', 'yellow', 'orange', 'pink', 'blue', 'brown', 'red', 'magenta', 'purple'];
   const GRAVITY = -7;
   const FRICTION = 5;
+  const MIN_PARTICLES = 100;
+  const MAX_PARTICLES = 1000;
+  const MAX_SPEED = 10;
+  const MIN_SPEED = -10;
 
   window.addEventListener("resize", resizeCanvas);
-  canvas.addEventListener("click", addParticle);
+  canvas.addEventListener("click", addFireworks);
 
   function resizeCanvas(oEvent) {
     canvas.width = window.innerWidth;
@@ -17,9 +21,19 @@
     draw();
   }
 
-  function addParticle(oEvent) {
+  function addFireworks(oEvent) {
+      let amountOfParticles = Math.floor(Math.random() * (MAX_PARTICLES - MIN_PARTICLES + 1)) + MIN_PARTICLES;
+      for(let i=0; i<amountOfParticles; i++) {
+        addParticle(oEvent.clientX, oEvent.clientY);
+      }
+  }
+
+  function addParticle(x, y) {
     let colour = COLOURS[Math.floor(Math.random() * COLOURS.length)];
-    let particle = new Particle(oEvent.clientX, oEvent.clientY, 5, colour, 5, -5);
+    let xv = Math.floor(Math.random() * (MAX_SPEED - MIN_SPEED + 1)) + MIN_SPEED;
+    let yv = Math.floor(Math.random() * (MAX_SPEED - MIN_SPEED + 1)) + MIN_SPEED;
+
+    let particle = new Particle(x, y, 5, colour, xv, yv);
     particles.push(particle);
   }
 

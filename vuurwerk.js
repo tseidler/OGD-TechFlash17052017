@@ -5,6 +5,7 @@
   let lastUpdate = 0;
   let particles = [];
   const COLOURS = ['white', 'green', 'yellow', 'orange', 'pink', 'blue', 'brown', 'red', 'magenta', 'purple'];
+  const GRAVITY = 2;
 
   window.addEventListener("resize", resizeCanvas);
   canvas.addEventListener("click", addParticle);
@@ -27,6 +28,8 @@
     }
     let dTime = (timestamp - lastUpdate) / 1000;
 
+    particles.forEach(particle => particle.update(dTime));
+
     draw(dTime);
     lastUpdate = timestamp;
     window.requestAnimationFrame(time => update(time));
@@ -46,11 +49,20 @@
       this.y = y;
       this.size =  size;
       this.colour = colour;
+
+      this.acceleration = {
+        y: 0
+      }
     }
 
     draw(context) {
       context.fillStyle = this.colour;
       context.fillRect(this.x, this.y, this.size, this.size);
+    }
+
+    update(dTime) {
+      this.acceleration.y = this.acceleration.y + GRAVITY * dTime;
+      this.y = this.y + this.acceleration.y;
     }
   }
 })();

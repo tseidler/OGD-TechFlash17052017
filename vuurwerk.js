@@ -5,7 +5,8 @@
   let lastUpdate = 0;
   let particles = [];
   const COLOURS = ['white', 'green', 'yellow', 'orange', 'pink', 'blue', 'brown', 'red', 'magenta', 'purple'];
-  const GRAVITY = 2;
+  const GRAVITY = -7;
+  const FRICTION = 5;
 
   window.addEventListener("resize", resizeCanvas);
   canvas.addEventListener("click", addParticle);
@@ -18,7 +19,7 @@
 
   function addParticle(oEvent) {
     let colour = COLOURS[Math.floor(Math.random() * COLOURS.length)];
-    let particle = new Particle(oEvent.clientX, oEvent.clientY, 5, colour);
+    let particle = new Particle(oEvent.clientX, oEvent.clientY, 5, colour, 5, -5);
     particles.push(particle);
   }
 
@@ -44,14 +45,15 @@
   window.requestAnimationFrame(timestamp => update(timestamp));
 
   class Particle {
-    constructor(x, y, size, colour) {
+    constructor(x, y, size, colour, vx, vy) {
       this.x = x;
       this.y = y;
       this.size =  size;
       this.colour = colour;
 
-      this.acceleration = {
-        y: 0
+      this.velocity = {
+        x: vx,
+        y: vy
       }
     }
 
@@ -61,8 +63,11 @@
     }
 
     update(dTime) {
-      this.acceleration.y = this.acceleration.y + GRAVITY * dTime;
-      this.y = this.y + this.acceleration.y;
+      this.velocity.y -= GRAVITY * dTime;
+      this.velocity.x -= Math.sign(this.velocity.x)  * dTime * FRICTION;
+
+      this.x = this.x + this.velocity.x;
+      this.y = this.y + this.velocity.y;
     }
   }
 })();
